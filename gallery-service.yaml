@@ -1,0 +1,13 @@
+apiVersipn: v1 
+kind: Service
+metadata:
+ name: gallery-service
+spec:
+ type: NodePort
+ ports:
+ - targetPort: 80
+   port: 80
+   nodePort: 32678
+   protocol: TCP
+ selector:
+   run: iron-gallery
