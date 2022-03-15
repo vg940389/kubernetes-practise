@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ labels:
+   name: maria-db
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   name: maria-db 
+ template:
+  metadata:
+   labels:
+    name: maria-db
+  spec:
+   volumes:
+   - name: db
+     emptyDir:
+
+   containers:
+    - name: iron-db-container
+      image: kodekloud/irondb:2.0
+      volumeMounts:
+      - name: db
+        mountPath: /var/lib/mysql
+      env:
+       - name: MYSQL_DATABASE
+         valueFrom:
+          secretKeyRef:
+           name: database
+           key: database_blog
+       - name: MYSQL_ROOT_PASSWORD
+         valueFrom:
+          secretKeyRef:
+           name: database
+           key: database_root_pwd
+       - name: MYSQL_PASSWORD
+         valueFrom:
+          secretKeyRef:
+            name: database
+            key: database-pwd
+       - name: MYSQL_USER
+         valueFrom: 
+          secretKeyRef:
+            name: database
+            key: database-user
